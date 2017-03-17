@@ -1,0 +1,29 @@
+Microsoft Visual Studio Solution File, Format Version 11.00
+# Visual Studio 2008
+
+Project("{CEBFB8A0-6B8F-6074-2926-FD104F51AAA2}") = "CaseyTrackingTest", "Assembly-CSharp.csproj", "{F395CD67-E757-4980-23DE-99F7C6347EE6}"
+EndProject
+Project("{CEBFB8A0-6B8F-6074-2926-FD104F51AAA2}") = "CaseyTrackingTest", "Assembly-CSharp-Editor.csproj", "{1334E2F7-49DB-04FA-4BFE-383D98088F07}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{F395CD67-E757-4980-23DE-99F7C6347EE6}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F395CD67-E757-4980-23DE-99F7C6347EE6}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F395CD67-E757-4980-23DE-99F7C6347EE6}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F395CD67-E757-4980-23DE-99F7C6347EE6}.Release|Any CPU.Build.0 = Release|Any CPU
+		{1334E2F7-49DB-04FA-4BFE-383D98088F07}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1334E2F7-49DB-04FA-4BFE-383D98088F07}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1334E2F7-49DB-04FA-4BFE-383D98088F07}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1334E2F7-49DB-04FA-4BFE-383D98088F07}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(MonoDevelopProperties) = preSolution
+		StartupItem = Assembly-CSharp.csproj
+	EndGlobalSection
+EndGlobal
