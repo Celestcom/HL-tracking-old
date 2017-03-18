@@ -31,6 +31,8 @@ public class TrackingKinematics : MonoBehaviour
 	public float NeckOffset = 0.1f;
 	public GameObject ArmMeasureObject;
 	public Material transparent;
+	public bool GetOffset;
+	public Quaternion ConicalOffset = Quaternion.identity;
 
 	void Start()
 	{
@@ -91,6 +93,54 @@ public class TrackingKinematics : MonoBehaviour
 
 		LateUpdateLeftArm();
 		LateUpdateRightArm();
+
+		if (GetOffset)
+		{
+			GetOffset = false;
+
+			Quaternion A = ArmMeasureObject.transform.rotation;
+			Quaternion B = Quaternion.Inverse(calibrator.GetOrientation(Imu.Chest));
+			Quaternion C = A * B;
+
+
+			#region 
+			/*
+			Quaternion A = calibrator.GetOrientation(Imu.Chest);
+			Quaternion B = Quaternion.Inverse(ArmMeasureObject.transform.rotation);
+			Quaternion C = A * B;
+			
+			*/
+			#endregion
+			//ConicalOffset = calibrator.GetOrientation(Imu.Chest) * Quaternion.Inverse(TrackedHead.transform.rotation);
+
+			GameObject go = new GameObject();
+			go.transform.position = TrackedHead.transform.position;
+			go.transform.SetParent(transform);
+			go.transform.rotation = A;
+			ForwardIndicator fwdInd = go.AddComponent<ForwardIndicator>();
+			fwdInd.GizmoColor = Color.red;
+			fwdInd.clip = new Vector2(0, .25f);
+			go.name = "A Orientation";
+
+			go = new GameObject();
+			go.transform.position = TrackedHead.transform.position;
+			go.transform.SetParent(transform);
+			go.transform.rotation = B;
+
+			fwdInd = go.AddComponent<ForwardIndicator>();
+			fwdInd.GizmoColor = Color.green;
+			fwdInd.clip = new Vector2(0, .15f);
+			go.name = "B Orientation";
+
+			go = new GameObject();
+			go.transform.position = TrackedHead.transform.position;
+			go.transform.SetParent(transform);
+			go.transform.rotation = C;
+			fwdInd = go.AddComponent<ForwardIndicator>();
+			fwdInd.GizmoColor = Color.cyan;
+			fwdInd.clip = new Vector2(0, .2f);
+			go.name = "C Orientation";
+		}
 	}
 	void LateUpdateChest()
 	{
@@ -162,6 +212,7 @@ public class TrackingKinematics : MonoBehaviour
 
 		if (Input.GetKeyDown(KeyCode.Space))
 		{
+			GetOffset = true;
 			calibrator.CalibrateAll();
 		}
 		if (Input.GetKeyDown(KeyCode.C))
@@ -193,6 +244,7 @@ public class TrackingKinematics : MonoBehaviour
 	{
 		if (GUI.Button(new Rect(new Vector2(100, 100), new Vector2(100, 50)), "Calibrate Chest"))
 		{
+			GetOffset = true;
 			calibrator.CalibrateAll();
 		}
 	}
@@ -300,11 +352,8 @@ public class TrackingKinematics : MonoBehaviour
 			_imuMap[Imu.Chest].transform = (Quaternion q) => { return dif * Quaternion.Inverse(q); };
 
 		}
-
 		public void CalibrateLeft()
 		{
-			Debug.Log("Calibrating Left\n");
-
 			var currentWorldOrientation = _imuMap[Imu.Left_Upper_Arm].rawQuat;
 
 			var originalGameRotation = _imuMap[Imu.Left_Upper_Arm].originalGameOrientation;
@@ -347,10 +396,8 @@ public class TrackingKinematics : MonoBehaviour
 		}
 		public void CalibrateRight()
 		{
-
 			var currentWorldOrientation = _imuMap[Imu.Right_Upper_Arm].rawQuat;
 			var originalGameRotation = _imuMap[Imu.Right_Upper_Arm].originalGameOrientation;
-
 
 			_imuMap[Imu.Right_Upper_Arm].remap = (Quaternion q) =>
 			{
